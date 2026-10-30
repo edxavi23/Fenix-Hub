@@ -47,6 +47,11 @@ export const BROWSER_SESSION_PARTITION = 'persist:aionui-browser';
  */
 export const BUILTIN_BROWSER_MCP_NAME = 'aionui-browser';
 
+/**
+ * Name of the built-in shared memory MCP server. Agents see this name in their tool list.
+ */
+export const BUILTIN_MEMORY_MCP_NAME = 'aionui-memory';
+
 // ===== 文件处理相关常量 =====
 
 /** 临时文件时间戳分隔符 */

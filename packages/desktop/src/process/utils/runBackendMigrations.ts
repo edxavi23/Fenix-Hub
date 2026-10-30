@@ -5,11 +5,12 @@
  */
 
 import { execFile } from 'node:child_process';
+import path from 'node:path';
 import { migrateConfigStorage, migrateLegacyMcpConfigToDb, migrateProviders } from '@/common/config/configMigration';
 import { httpRequest } from '@/common/adapter/httpBridge';
 import { mcpService } from '@/common/adapter/ipcBridge';
 import type { ImageGenerationModelSetting } from '@/common/config/clientSettings';
-import { BUILTIN_BROWSER_MCP_NAME } from '@/common/config/constants';
+import { BUILTIN_BROWSER_MCP_NAME, BUILTIN_MEMORY_MCP_NAME } from '@/common/config/constants';
 import {
   removeImageGenerationEnvKeys,
   resolveImageGenerationMcpEnv,
@@ -18,6 +19,7 @@ import {
 import { BUILTIN_IMAGE_GEN_NAME, type IMcpServer, type IProvider } from '@/common/config/storage';
 import { getBuiltinMcpScriptPath, type ProcessConfig as ProcessConfigType } from './initStorage';
 import { migrateAssistantsToBackend } from './migrateAssistants';
+import { getDataPath } from './utils';
 
 type ConfigFile = typeof ProcessConfigType;
 type MigrationStepResult = boolean;
@@ -38,6 +40,12 @@ const BUILTIN_CHROME_DEVTOOLS_NAME = 'chrome-devtools';
  * happens in the side preview panel where the user can watch it.
  */
 const BUILTIN_BROWSER_SCRIPT = 'builtin-mcp-browser';
+
+/**
+ * Built-in shared memory MCP. Every agent that connects to it reads and writes the same
+ * folder, so agents working together keep one set of notes. Enabled by default.
+ */
+const BUILTIN_MEMORY_SCRIPT = 'builtin-mcp-memory';
 
 const LEGACY_BACKEND_CLIENT_PREFERENCE_KEYS = [
   'assistants',
@@ -200,6 +208,31 @@ function buildBuiltinBrowserServer(): McpImportServer {
   };
 }
 
+function buildBuiltinMemoryServer(): McpImportServer {
+  const scriptPath = getBuiltinMcpScriptPath(BUILTIN_MEMORY_SCRIPT);
+  const serverConfig = {
+    command: 'node',
+    args: [scriptPath],
+    env: { AIONUI_MEMORY_DIR: path.join(getDataPath(), 'memory') },
+  };
+
+  return {
+    name: BUILTIN_MEMORY_MCP_NAME,
+    description:
+      'Shared memory for all agents: search, save and forget short notes. ' +
+      'Notes that come from web pages or email are held until you confirm them.',
+    enabled: true,
+    builtin: true,
+    transport: {
+      type: 'stdio',
+      command: serverConfig.command,
+      args: serverConfig.args,
+      env: serverConfig.env,
+    },
+    original_json: JSON.stringify({ mcpServers: { [BUILTIN_MEMORY_MCP_NAME]: serverConfig } }, null, 2),
+  };
+}
+
 function buildDefaultMcpServers(): McpImportServer[] {
   const chromeConfig = {
     command: 'npx',
@@ -220,6 +253,7 @@ function buildDefaultMcpServers(): McpImportServer[] {
       original_json: JSON.stringify({ mcpServers: { [BUILTIN_CHROME_DEVTOOLS_NAME]: chromeConfig } }, null, 2),
     },
     buildBuiltinBrowserServer(),
+    buildBuiltinMemoryServer(),
   ];
 }
 
@@ -434,11 +468,30 @@ async function ensureBootstrapMcpServersInDb(configFile: ConfigFile): Promise<vo
     }
   }
 
+  // Same repair as the browser record: the script path and memory folder are absolute,
+  // so realign them when the app or its data folder has moved.
+  const existingMemoryServer = existing.find((server) => server.name === BUILTIN_MEMORY_MCP_NAME);
+  let memoryServerUpdated = false;
+  if (existingMemoryServer) {
+    const desiredMemoryServer = buildBuiltinMemoryServer();
+    const memoryChanged =
+      !isSameStdioTransport(existingMemoryServer.transport, desiredMemoryServer.transport) ||
+      existingMemoryServer.original_json !== desiredMemoryServer.original_json;
+    if (memoryChanged) {
+      await mcpService.updateServer.invoke({
+        id: existingMemoryServer.id,
+        data: { transport: desiredMemoryServer.transport, original_json: desiredMemoryServer.original_json },
+      });
+      memoryServerUpdated = true;
+    }
+  }
+
   console.info(
-    '[Migration] MCP bootstrap completed, imported %d missing defaults, updated image server: %s, updated browser server: %s, image config source: %s, image enabled: %s',
+    '[Migration] MCP bootstrap completed, imported %d missing defaults, updated image server: %s, updated browser server: %s, updated memory server: %s, image config source: %s, image enabled: %s',
     missing.length,
     imageServerUpdated ? 'yes' : 'no',
     browserServerUpdated ? 'yes' : 'no',
+    memoryServerUpdated ? 'yes' : 'no',
     imageConfigSource,
     imageConfig?.switch === true ? 'yes' : 'no'
   );
