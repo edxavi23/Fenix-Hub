@@ -449,9 +449,9 @@ jobs:
           Start-Process -FilePath $installer.FullName -ArgumentList '/S' -Wait -NoNewWindow
 
           $candidates = @(
-            "$env:LOCALAPPDATA\\Programs\\AionUi\\AionUi.exe",
-            "$env:ProgramFiles\\AionUi\\AionUi.exe",
-            "$env:ProgramFiles(x86)\\AionUi\\AionUi.exe"
+            "$env:LOCALAPPDATA\\Programs\\FenixHub\\FenixHub.exe",
+            "$env:ProgramFiles\\FenixHub\\FenixHub.exe",
+            "$env:ProgramFiles(x86)\\FenixHub\\FenixHub.exe"
           )
 
           $installedExe = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
@@ -482,7 +482,7 @@ jobs:
           hdiutil detach "$MOUNT_POINT"
 
           APP_PATH=$(ls -d "$APP_DIR"/*.app | head -n 1)
-          APP_BIN="$APP_PATH/Contents/MacOS/AionUi"
+          APP_BIN="$APP_PATH/Contents/MacOS/FenixHub"
 
           test -x "$APP_BIN"
           "$APP_BIN" --version || true

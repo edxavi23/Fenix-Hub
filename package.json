@@ -1,12 +1,11 @@
 {
   "name": "AionUi",
   "version": "2.2.2",
-  "description": "Transform your command-line AI agent into a modern, efficient AI Chat interface.",
+  "description": "Where all my agents meet and work.",
   "keywords": [],
   "license": "Apache-2.0",
   "author": {
-    "name": "AionUi",
-    "email": "service@aionui.com"
+    "name": "Fenix Hub"
   },
   "workspaces": [
     "packages/*"
@@ -268,5 +267,5 @@
   "patchedDependencies": {
     "7zip-bin@5.2.0": "patches/7zip-bin@5.2.0.patch"
   },
-  "productName": "AionUi"
+  "productName": "FenixHub"
 }

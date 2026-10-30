@@ -1,10 +1,10 @@
-appId: com.aionui.app
-productName: AionUi
-executableName: AionUi
-copyright: Copyright © 2024 AionUi
+appId: com.fenixhub.app
+productName: FenixHub
+executableName: FenixHub
+copyright: Copyright © 2024 AionUi authors; modifications Copyright © 2026 Fenix Hub
 
 protocols:
-  - name: AionUi Protocol
+  - name: Fenix Hub Protocol
     schemes:
       - aionui
 
@@ -124,8 +124,8 @@ nsis:
   allowToChangeInstallationDirectory: true
   createDesktopShortcut: true
   createStartMenuShortcut: true
-  shortcutName: ${productName}
-  uninstallDisplayName: ${productName}
+  shortcutName: Fenix Hub
+  uninstallDisplayName: Fenix Hub
   artifactName: ${productName}-${version}-${os}-${arch}.${ext}
   differentialPackage: false
 
@@ -169,15 +169,15 @@ linux:
   icon: resources/app.png
   artifactName: ${productName}-${version}-${os}-${arch}.${ext}
   category: Utility
-  maintainer: aionui
-  vendor: aionui
+  maintainer: fenix-hub
+  vendor: fenix-hub
   synopsis: ${description}
   description: ${description}
   desktop:
     entry:
-      Name: AionUi
+      Name: Fenix Hub
       Comment: ${description}
-      Icon: AionUi
+      Icon: FenixHub
       Categories: Office;Utility;
       MimeType: x-scheme-handler/aionui;
 
@@ -218,7 +218,7 @@ electronDownload:
 
 publish:
   provider: github
-  owner: iOfficeAI
-  repo: AionUi
+  owner: edxavi23
+  repo: Fenix-Hub
   publishAutoUpdate: true
   releaseType: release

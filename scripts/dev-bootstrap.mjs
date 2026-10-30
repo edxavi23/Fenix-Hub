@@ -68,7 +68,7 @@ function listLikelyConflictingProcesses() {
   try {
     if (isWindows()) {
       const output = run(
-        "powershell -NoProfile -Command \"Get-Process | Where-Object { $_.ProcessName -in @('electron','AionUi','node','bun') } | Select-Object ProcessName,Id | ConvertTo-Json -Compress\""
+        "powershell -NoProfile -Command \"Get-Process | Where-Object { $_.ProcessName -in @('electron','FenixHub','node','bun') } | Select-Object ProcessName,Id | ConvertTo-Json -Compress\""
       );
       const parsed = output ? JSON.parse(output) : [];
       return Array.isArray(parsed) ? parsed : [parsed];
