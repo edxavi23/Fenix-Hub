@@ -1,7 +1,7 @@
 # Fenix Hub
 
 <p align="center">
-  <img src="./resources/fenix-hub-logo.svg" alt="Fenix Hub logo" width="160">
+  <img src="./resources/fenix-hub-logo.png" alt="Fenix Hub logo" width="160">
 </p>
 
 Where all my agents meet and work.
