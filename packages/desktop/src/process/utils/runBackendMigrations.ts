@@ -5,7 +5,6 @@
  */
 
 import { execFile } from 'node:child_process';
-import path from 'node:path';
 import { migrateConfigStorage, migrateLegacyMcpConfigToDb, migrateProviders } from '@/common/config/configMigration';
 import { httpRequest } from '@/common/adapter/httpBridge';
 import { mcpService } from '@/common/adapter/ipcBridge';
@@ -19,7 +18,7 @@ import {
 import { BUILTIN_IMAGE_GEN_NAME, type IMcpServer, type IProvider } from '@/common/config/storage';
 import { getBuiltinMcpScriptPath, type ProcessConfig as ProcessConfigType } from './initStorage';
 import { migrateAssistantsToBackend } from './migrateAssistants';
-import { getDataPath } from './utils';
+import { getMemoryDir } from './utils';
 
 type ConfigFile = typeof ProcessConfigType;
 type MigrationStepResult = boolean;
@@ -213,7 +212,7 @@ function buildBuiltinMemoryServer(): McpImportServer {
   const serverConfig = {
     command: 'node',
     args: [scriptPath],
-    env: { AIONUI_MEMORY_DIR: path.join(getDataPath(), 'memory') },
+    env: { AIONUI_MEMORY_DIR: getMemoryDir() },
   };
 
   return {

@@ -98,6 +98,7 @@ import type { AgentMetadata } from '@/renderer/utils/model/agentTypes';
 import type { Theme } from '@/common/theme/types';
 import type { AttachFolderRequest, ProjectDetailDto, ProjectEntryDto } from '@/common/types/project';
 import type { ChatFileRef, ContentEncoding } from '@/common/types/chatFile';
+import type { MemoryEntryDto } from '@/common/types/memory';
 import type { ProtocolDetectionRequest, ProtocolDetectionResponse } from '../utils/protocolDetector';
 import {
   buildCreateConversationBody,
@@ -1554,6 +1555,18 @@ export type INotificationOptions = {
   body: string;
   icon?: string;
   conversation_id?: string;
+};
+
+// ---------------------------------------------------------------------------
+// Shared memory review: handled by the main process against the memory folder.
+// Agents reach the same notes through the built-in memory MCP server instead.
+// ---------------------------------------------------------------------------
+export const memory = {
+  list: bridge.buildProvider<MemoryEntryDto[], void>('memory.list'),
+  confirm: bridge.buildProvider<boolean, { id: string }>('memory.confirm'),
+  remove: bridge.buildProvider<boolean, { id: string }>('memory.remove'),
+  restore: bridge.buildProvider<boolean, { id: string }>('memory.restore'),
+  purge: bridge.buildProvider<boolean, { id: string }>('memory.purge'),
 };
 
 export const notification = {

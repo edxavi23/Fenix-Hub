@@ -102,6 +102,12 @@ export const getDataPath = (): string => {
 };
 
 /**
+ * Folder that holds the shared agent memory notes.
+ * The memory MCP server and the review screen must both use this exact path.
+ */
+export const getMemoryDir = (): string => path.join(getDataPath(), 'memory');
+
+/**
  * Get config path, using CLI-safe symlink on macOS.
  * Release builds use ~/.aionui-config; dev builds use ~/.aionui-config-dev.
  * 获取配置目录路径，macOS 上使用符号链接。

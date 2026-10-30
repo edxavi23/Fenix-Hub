@@ -150,6 +150,54 @@ describe('MemoryStore', () => {
     });
   });
 
+  describe('review actions', () => {
+    it('should list notes of every requested status, newest first', async () => {
+      const first = await store.save({ content: 'first note' });
+      const held = await store.save({ content: 'held note', source: 'web:https://example.com' });
+      const gone = await store.save({ content: 'gone note' });
+      await store.forget(gone.id);
+
+      const all = await store.list(['confirmed', 'proposed', 'deleted']);
+
+      expect(all.map((entry) => entry.id).toSorted()).toEqual([first.id, held.id, gone.id].toSorted());
+      expect(await store.list(['proposed'])).toHaveLength(1);
+    });
+
+    it('should bring a forgotten note back to the confirmed list', async () => {
+      const entry = await store.save({ content: 'restore me' });
+      await store.forget(entry.id);
+
+      expect(await store.restore(entry.id)).toBe(true);
+      expect(await store.recent()).toHaveLength(1);
+    });
+
+    it('should not let restore touch a note that is not forgotten', async () => {
+      const held = await store.save({ content: 'still waiting', source: 'email:inbox' });
+
+      expect(await store.restore(held.id)).toBe(false);
+      expect((await store.list(['proposed']))[0].id).toBe(held.id);
+    });
+
+    it('should erase a forgotten note from disk', async () => {
+      const entry = await store.save({ content: 'erase me' });
+      await store.forget(entry.id);
+
+      expect(await store.purge(entry.id)).toBe(true);
+      expect(await readdir(dir)).toEqual([]);
+    });
+
+    it('should refuse to erase a note that is still active', async () => {
+      const entry = await store.save({ content: 'keep me' });
+
+      expect(await store.purge(entry.id)).toBe(false);
+      expect(await readdir(dir)).toContain(`${entry.id}.json`);
+    });
+
+    it('should return false when erasing an unknown note', async () => {
+      expect(await store.purge('00000000-0000-4000-8000-000000000000')).toBe(false);
+    });
+  });
+
   describe('damaged folder', () => {
     it('should skip corrupt and foreign files without failing', async () => {
       await store.save({ content: 'a good note about testing' });

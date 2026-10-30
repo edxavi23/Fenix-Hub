@@ -14,9 +14,12 @@ share one memory, so they work from the same context.
 - **Shared memory.** A built-in tool server (`aionui-memory`) lets every agent search, save and
   forget short notes. Notes that come from web pages, email or other bots are held until you
   confirm them. Notes that look like secrets are refused.
+- **Memory review screen.** Settings > Memory shows the notes held for review, the active notes,
+  and removed notes. You can confirm, remove, restore, or delete a note for good. Agents cannot do
+  any of these things.
 - **New name and logo.**
 
-More is planned: a memory review screen, an agent-org home screen, and automated jobs.
+More is planned: an agent-org home screen and automated jobs.
 
 ## Based on AionUi
 

@@ -18,6 +18,7 @@ import { randomUUID } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
+import type { MemoryEntryDto } from '@/common/types/memory';
 
 export const MAX_CONTENT_CHARS = 2000;
 export const MAX_TAGS = 10;
@@ -63,7 +64,8 @@ const memoryEntrySchema = z.object({
   updatedAt: z.string(),
 });
 
-export type MemoryEntry = z.infer<typeof memoryEntrySchema>;
+/** Declared once in the shared types file. z.infer is not used because it marks every field optional here. */
+export type MemoryEntry = MemoryEntryDto;
 export type MemoryStatus = MemoryEntry['status'];
 
 export type SaveMemoryInput = {
@@ -170,6 +172,13 @@ export class MemoryStore {
     return proposed.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   }
 
+  /** Every valid note with one of the given statuses, newest first. For the review screen only. */
+  async list(statuses: MemoryStatus[]): Promise<MemoryEntry[]> {
+    const wanted = new Set(statuses);
+    const matching = (await this.readAll()).filter((entry) => wanted.has(entry.status));
+    return matching.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+
   /** Soft delete. The file stays on disk so a person can recover it. */
   async forget(id: string): Promise<boolean> {
     return this.setStatus(id, 'deleted', ['confirmed', 'proposed']);
@@ -178,6 +187,19 @@ export class MemoryStore {
   /** Confirm a proposed note. Meant for the app UI only and never exposed as an agent tool. */
   async confirm(id: string): Promise<boolean> {
     return this.setStatus(id, 'confirmed', ['proposed']);
+  }
+
+  /** Bring a forgotten note back. Meant for the app UI only and never exposed as an agent tool. */
+  async restore(id: string): Promise<boolean> {
+    return this.setStatus(id, 'confirmed', ['deleted']);
+  }
+
+  /** Erase a forgotten note from disk. Only notes that were already forgotten can be erased. */
+  async purge(id: string): Promise<boolean> {
+    const entry = await this.read(id);
+    if (!entry || entry.status !== 'deleted') return false;
+    await fs.unlink(this.entryPath(id));
+    return true;
   }
 
   private async setStatus(id: string, status: MemoryStatus, allowedFrom: MemoryStatus[]): Promise<boolean> {
@@ -197,7 +219,7 @@ export class MemoryStore {
     try {
       const raw = await fs.readFile(this.entryPath(id), 'utf8');
       const parsed = memoryEntrySchema.safeParse(JSON.parse(raw));
-      return parsed.success ? parsed.data : null;
+      return parsed.success ? (parsed.data as MemoryEntry) : null;
     } catch (error) {
       if (error instanceof MemoryError) throw error;
       return null;
