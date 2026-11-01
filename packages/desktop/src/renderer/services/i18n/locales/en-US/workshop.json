@@ -1,0 +1,34 @@
+{
+  "title": "Workshop",
+  "sceneLabel": "Workshop: your projects on the lifts and your agents at the table",
+  "tabs": {
+    "workshop": "Workshop",
+    "projects": "Projects",
+    "agents": "Agents",
+    "activity": "Activity"
+  },
+  "classicStart": "Classic start screen",
+  "liveCount": "{{working}} working · {{idle}} idle",
+  "status": {
+    "working": "Working",
+    "waiting": "Needs you",
+    "failed": "Failed",
+    "done": "Done",
+    "idle": "Idle"
+  },
+  "crewWorking": "{{working}} of {{total}} working",
+  "noTasks": "No tasks yet",
+  "emptyLift": "Empty lift",
+  "emptyLiftHint": "Start a team to put a project here",
+  "moreAgents": "+{{count}} more",
+  "emptyTable": "No agents yet",
+  "activityEmpty": "No activity yet",
+  "you": "You",
+  "openProject": "Open {{name}}",
+  "time": {
+    "now": "now",
+    "minutes": "{{count}}m ago",
+    "hours": "{{count}}h ago",
+    "days": "{{count}}d ago"
+  }
+}

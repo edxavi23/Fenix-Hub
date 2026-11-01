@@ -1,0 +1,34 @@
+{
+  "title": "工坊",
+  "sceneLabel": "工坊：舉升機上是你的專案，桌邊是你的智慧體",
+  "tabs": {
+    "workshop": "工坊",
+    "projects": "專案",
+    "agents": "智慧體",
+    "activity": "動態"
+  },
+  "classicStart": "經典開始頁",
+  "liveCount": "{{working}} 個工作中 · {{idle}} 個閒置",
+  "status": {
+    "working": "工作中",
+    "waiting": "需要你",
+    "failed": "失敗",
+    "done": "完成",
+    "idle": "閒置"
+  },
+  "crewWorking": "{{total}} 個中有 {{working}} 個在工作",
+  "noTasks": "尚無任務",
+  "emptyLift": "空舉升機",
+  "emptyLiftHint": "建立團隊即可把專案放到這裡",
+  "moreAgents": "+{{count}} 個",
+  "emptyTable": "尚無智慧體",
+  "activityEmpty": "尚無動態",
+  "you": "你",
+  "openProject": "開啟 {{name}}",
+  "time": {
+    "now": "剛剛",
+    "minutes": "{{count}} 分鐘前",
+    "hours": "{{count}} 小時前",
+    "days": "{{count}} 天前"
+  }
+}

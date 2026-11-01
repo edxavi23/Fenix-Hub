@@ -1,0 +1,34 @@
+{
+  "title": "Atelier",
+  "sceneLabel": "Atelier : vos projets sur les ponts élévateurs et vos agents à la table",
+  "tabs": {
+    "workshop": "Atelier",
+    "projects": "Projets",
+    "agents": "Agents",
+    "activity": "Activité"
+  },
+  "classicStart": "Écran d'accueil classique",
+  "liveCount": "{{working}} au travail · {{idle}} inactifs",
+  "status": {
+    "working": "Au travail",
+    "waiting": "Vous attend",
+    "failed": "Échec",
+    "done": "Terminé",
+    "idle": "Inactif"
+  },
+  "crewWorking": "{{working}} sur {{total}} au travail",
+  "noTasks": "Aucune tâche pour l'instant",
+  "emptyLift": "Pont vide",
+  "emptyLiftHint": "Créez une équipe pour placer un projet ici",
+  "moreAgents": "+{{count}} de plus",
+  "emptyTable": "Aucun agent pour l'instant",
+  "activityEmpty": "Aucune activité pour l'instant",
+  "you": "Vous",
+  "openProject": "Ouvrir {{name}}",
+  "time": {
+    "now": "à l'instant",
+    "minutes": "il y a {{count}} min",
+    "hours": "il y a {{count}} h",
+    "days": "il y a {{count}} j"
+  }
+}

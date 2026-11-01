@@ -1,0 +1,34 @@
+{
+  "title": "Мастерская",
+  "sceneLabel": "Мастерская: проекты на подъёмниках, агенты за столом",
+  "tabs": {
+    "workshop": "Мастерская",
+    "projects": "Проекты",
+    "agents": "Агенты",
+    "activity": "Активность"
+  },
+  "classicStart": "Классический стартовый экран",
+  "liveCount": "{{working}} работают · {{idle}} ожидают",
+  "status": {
+    "working": "Работает",
+    "waiting": "Ждёт вас",
+    "failed": "Ошибка",
+    "done": "Готово",
+    "idle": "Ожидает"
+  },
+  "crewWorking": "{{working}} из {{total}} работают",
+  "noTasks": "Задач пока нет",
+  "emptyLift": "Пустой подъёмник",
+  "emptyLiftHint": "Создайте команду, чтобы поставить сюда проект",
+  "moreAgents": "+{{count}} ещё",
+  "emptyTable": "Агентов пока нет",
+  "activityEmpty": "Активности пока нет",
+  "you": "Вы",
+  "openProject": "Открыть {{name}}",
+  "time": {
+    "now": "сейчас",
+    "minutes": "{{count}} мин назад",
+    "hours": "{{count}} ч назад",
+    "days": "{{count}} дн назад"
+  }
+}

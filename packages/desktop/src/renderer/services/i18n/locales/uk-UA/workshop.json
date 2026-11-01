@@ -1,0 +1,34 @@
+{
+  "title": "Майстерня",
+  "sceneLabel": "Майстерня: проєкти на підйомниках, агенти за столом",
+  "tabs": {
+    "workshop": "Майстерня",
+    "projects": "Проєкти",
+    "agents": "Агенти",
+    "activity": "Активність"
+  },
+  "classicStart": "Класичний стартовий екран",
+  "liveCount": "{{working}} працюють · {{idle}} очікують",
+  "status": {
+    "working": "Працює",
+    "waiting": "Чекає на вас",
+    "failed": "Помилка",
+    "done": "Готово",
+    "idle": "Очікує"
+  },
+  "crewWorking": "{{working}} з {{total}} працюють",
+  "noTasks": "Завдань поки немає",
+  "emptyLift": "Порожній підйомник",
+  "emptyLiftHint": "Створіть команду, щоб поставити сюди проєкт",
+  "moreAgents": "+{{count}} ще",
+  "emptyTable": "Агентів поки немає",
+  "activityEmpty": "Активності поки немає",
+  "you": "Ви",
+  "openProject": "Відкрити {{name}}",
+  "time": {
+    "now": "щойно",
+    "minutes": "{{count}} хв тому",
+    "hours": "{{count}} год тому",
+    "days": "{{count}} дн тому"
+  }
+}

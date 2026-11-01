@@ -1,0 +1,34 @@
+{
+  "title": "ワークショップ",
+  "sceneLabel": "ワークショップ：リフトにプロジェクト、テーブルにエージェント",
+  "tabs": {
+    "workshop": "ワークショップ",
+    "projects": "プロジェクト",
+    "agents": "エージェント",
+    "activity": "アクティビティ"
+  },
+  "classicStart": "クラシック開始画面",
+  "liveCount": "作業中 {{working}} · 待機 {{idle}}",
+  "status": {
+    "working": "作業中",
+    "waiting": "要対応",
+    "failed": "失敗",
+    "done": "完了",
+    "idle": "待機"
+  },
+  "crewWorking": "{{total}} 人中 {{working}} 人が作業中",
+  "noTasks": "タスクはまだありません",
+  "emptyLift": "空きリフト",
+  "emptyLiftHint": "チームを作成するとここにプロジェクトが表示されます",
+  "moreAgents": "+{{count}}",
+  "emptyTable": "エージェントはまだいません",
+  "activityEmpty": "アクティビティはまだありません",
+  "you": "あなた",
+  "openProject": "{{name}} を開く",
+  "time": {
+    "now": "たった今",
+    "minutes": "{{count}}分前",
+    "hours": "{{count}}時間前",
+    "days": "{{count}}日前"
+  }
+}

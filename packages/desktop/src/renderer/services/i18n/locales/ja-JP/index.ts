@@ -19,6 +19,7 @@ import agent from './agent.json';
 import team from './team.json';
 import pet from './pet.json';
 import memory from './memory.json';
+import workshop from './workshop.json';
 
 export default {
   common,
@@ -41,4 +42,5 @@ export default {
   team,
   pet,
   memory,
+  workshop,
 };

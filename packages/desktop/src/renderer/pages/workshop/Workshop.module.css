@@ -1,0 +1,405 @@
+/* The Workshop is one fixed visual world (a garage at night), so it keeps its own dark palette in either app theme. */
+.workshop {
+  --ws-ink: #0b0d12;
+  --ws-screen: #0e121b;
+  --ws-paper: #eef1f5;
+  --ws-muted: #8f99aa;
+  --ws-ember: #ff8a1f;
+  --ws-glass: rgba(10, 12, 18, 0.86);
+  --ws-line: rgba(255, 255, 255, 0.08);
+  --ws-track: #2a3140;
+  --ws-working: #3ddc84;
+  --ws-waiting: #ffc83d;
+  --ws-failed: #ff5a5a;
+  --ws-idle: #9aa3b2;
+  --ws-done: #7aa2ff;
+  position: relative;
+  height: 100%;
+  overflow: auto;
+  background: var(--ws-ink);
+  color: var(--ws-paper);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  padding: 8px 16px;
+  background: var(--ws-glass);
+  border-bottom: 1px solid var(--ws-line);
+  backdrop-filter: blur(6px);
+}
+
+.tab:global(.arco-btn) {
+  color: var(--ws-muted);
+}
+
+.tabActive:global(.arco-btn) {
+  color: var(--ws-paper);
+  box-shadow: inset 0 -2px 0 var(--ws-ember);
+}
+
+.live {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1668 / 943;
+  overflow: hidden;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  user-select: none;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* lift screen panels: authored at 600 x 400, mapped onto each screen with matrix3d */
+.panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 600px;
+  height: 400px;
+  transform-origin: 0 0;
+  overflow: hidden;
+  padding: 28px 30px;
+  border-radius: 6px;
+  background: var(--ws-screen);
+  box-shadow: 0 0 40px rgba(255, 150, 60, 0.1);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 38%);
+  pointer-events: none;
+}
+
+.panel:focus-visible {
+  outline: 6px solid var(--ws-ember);
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.panelHead h3 {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 34px;
+  font-weight: 600;
+}
+
+.chip {
+  margin-left: auto;
+  flex: none;
+  padding: 4px 12px;
+  border: 2px solid currentColor;
+  border-radius: 6px;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.panelBody {
+  display: flex;
+  gap: 26px;
+  margin-top: 26px;
+}
+
+.tasks {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 25px;
+  color: var(--ws-paper);
+}
+
+.taskDone {
+  color: var(--ws-muted);
+}
+
+.box {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--ws-track);
+  border-radius: 50%;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.taskDone .box {
+  border-color: var(--ws-working);
+  color: var(--ws-working);
+}
+
+.taskNow .box {
+  border-color: var(--ws-ember);
+  background: var(--ws-ember);
+}
+
+.side {
+  width: 170px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.ring {
+  width: 150px;
+  height: 150px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.ring span {
+  width: 112px;
+  height: 112px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--ws-screen);
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 32px;
+}
+
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dots i {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+
+.muted {
+  color: var(--ws-muted);
+  font-size: 18px;
+  text-align: center;
+}
+
+.compact {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 34px 38px;
+}
+
+.compact h3 {
+  margin: 0;
+  font-size: 58px;
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.compact .chip {
+  margin-left: 0;
+  align-self: flex-start;
+  border-width: 3px;
+  font-size: 34px;
+}
+
+.bar {
+  height: 26px;
+  margin-top: auto;
+  overflow: hidden;
+  border-radius: 13px;
+  background: var(--ws-track);
+}
+
+.bar i {
+  display: block;
+  height: 100%;
+  border-radius: 13px;
+  background: var(--ws-ember);
+}
+
+.compactRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 40px;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  cursor: default;
+}
+
+.empty h3 {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 600;
+  color: var(--ws-muted);
+}
+
+/* robots and the table that hides where they are cut */
+.robot {
+  position: absolute;
+  transform: translateX(-50%);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.robot img {
+  display: block;
+  height: 100%;
+  filter: brightness(0.92) contrast(1.03);
+  transition: opacity 0.4s;
+}
+
+.tableReflection img {
+  position: absolute;
+  transform: translateX(-50%) scaleY(-0.55);
+  transform-origin: top;
+  opacity: 0.16;
+  filter: blur(1.5px);
+}
+
+.tag {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  transform: translate(-50%, -100%);
+  border: 1px solid var(--ws-line);
+  border-radius: 7px;
+  background: var(--ws-glass);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.tag b {
+  font-weight: 600;
+}
+
+.tag small {
+  color: var(--ws-muted);
+  font-size: 11px;
+}
+
+.dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  flex: none;
+  border-radius: 50%;
+}
+
+.more {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--ws-glass);
+  border: 1px solid var(--ws-line);
+  font-size: 12px;
+}
+
+.feed {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 5;
+  width: min(380px, 36%);
+  padding: 10px 14px;
+  border: 1px solid var(--ws-line);
+  border-radius: 12px;
+  background: var(--ws-glass);
+  backdrop-filter: blur(6px);
+  font-size: 13px;
+}
+
+.feedExpanded {
+  max-height: 60%;
+  overflow: auto;
+}
+
+.feedRow {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+
+.feedRow + .feedRow {
+  border-top: 1px solid var(--ws-line);
+}
+
+.feedRow span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ws-muted);
+}
+
+.feedRow em {
+  font-style: normal;
+  font-size: 12px;
+  color: var(--ws-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .robot img {
+    transition: none;
+  }
+}

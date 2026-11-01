@@ -1,0 +1,34 @@
+{
+  "title": "Atölye",
+  "sceneLabel": "Atölye: projeleriniz liftlerde, ajanlarınız masada",
+  "tabs": {
+    "workshop": "Atölye",
+    "projects": "Projeler",
+    "agents": "Ajanlar",
+    "activity": "Etkinlik"
+  },
+  "classicStart": "Klasik başlangıç ekranı",
+  "liveCount": "{{working}} çalışıyor · {{idle}} boşta",
+  "status": {
+    "working": "Çalışıyor",
+    "waiting": "Sizi bekliyor",
+    "failed": "Başarısız",
+    "done": "Bitti",
+    "idle": "Boşta"
+  },
+  "crewWorking": "{{total}} ajandan {{working}} çalışıyor",
+  "noTasks": "Henüz görev yok",
+  "emptyLift": "Boş lift",
+  "emptyLiftHint": "Buraya proje koymak için bir ekip başlatın",
+  "moreAgents": "+{{count}} daha",
+  "emptyTable": "Henüz ajan yok",
+  "activityEmpty": "Henüz etkinlik yok",
+  "you": "Siz",
+  "openProject": "{{name}} aç",
+  "time": {
+    "now": "şimdi",
+    "minutes": "{{count}} dk önce",
+    "hours": "{{count}} sa önce",
+    "days": "{{count}} gün önce"
+  }
+}

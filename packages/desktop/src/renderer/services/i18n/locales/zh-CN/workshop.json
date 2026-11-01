@@ -1,0 +1,34 @@
+{
+  "title": "车间",
+  "sceneLabel": "车间：举升机上是你的项目，桌边是你的智能体",
+  "tabs": {
+    "workshop": "车间",
+    "projects": "项目",
+    "agents": "智能体",
+    "activity": "动态"
+  },
+  "classicStart": "经典开始页",
+  "liveCount": "{{working}} 个工作中 · {{idle}} 个空闲",
+  "status": {
+    "working": "工作中",
+    "waiting": "需要你",
+    "failed": "失败",
+    "done": "完成",
+    "idle": "空闲"
+  },
+  "crewWorking": "{{total}} 个中 {{working}} 个在工作",
+  "noTasks": "还没有任务",
+  "emptyLift": "空举升机",
+  "emptyLiftHint": "创建团队即可把项目放到这里",
+  "moreAgents": "+{{count}} 个",
+  "emptyTable": "还没有智能体",
+  "activityEmpty": "还没有动态",
+  "you": "你",
+  "openProject": "打开 {{name}}",
+  "time": {
+    "now": "刚刚",
+    "minutes": "{{count}} 分钟前",
+    "hours": "{{count}} 小时前",
+    "days": "{{count}} 天前"
+  }
+}

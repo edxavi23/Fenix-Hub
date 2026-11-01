@@ -1,0 +1,34 @@
+{
+  "title": "Oficina",
+  "sceneLabel": "Oficina: seus projetos nos elevadores e seus agentes à mesa",
+  "tabs": {
+    "workshop": "Oficina",
+    "projects": "Projetos",
+    "agents": "Agentes",
+    "activity": "Atividade"
+  },
+  "classicStart": "Tela inicial clássica",
+  "liveCount": "{{working}} trabalhando · {{idle}} ociosos",
+  "status": {
+    "working": "Trabalhando",
+    "waiting": "Precisa de você",
+    "failed": "Falhou",
+    "done": "Concluído",
+    "idle": "Ocioso"
+  },
+  "crewWorking": "{{working}} de {{total}} trabalhando",
+  "noTasks": "Nenhuma tarefa ainda",
+  "emptyLift": "Elevador vazio",
+  "emptyLiftHint": "Crie uma equipe para colocar um projeto aqui",
+  "moreAgents": "+{{count}}",
+  "emptyTable": "Nenhum agente ainda",
+  "activityEmpty": "Nenhuma atividade ainda",
+  "you": "Você",
+  "openProject": "Abrir {{name}}",
+  "time": {
+    "now": "agora",
+    "minutes": "há {{count}} min",
+    "hours": "há {{count}} h",
+    "days": "há {{count}} d"
+  }
+}

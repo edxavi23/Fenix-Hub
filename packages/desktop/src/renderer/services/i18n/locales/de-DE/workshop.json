@@ -1,0 +1,34 @@
+{
+  "title": "Werkstatt",
+  "sceneLabel": "Werkstatt: Projekte auf den Hebebühnen, Agenten am Tisch",
+  "tabs": {
+    "workshop": "Werkstatt",
+    "projects": "Projekte",
+    "agents": "Agenten",
+    "activity": "Aktivität"
+  },
+  "classicStart": "Klassischer Startbildschirm",
+  "liveCount": "{{working}} arbeiten · {{idle}} untätig",
+  "status": {
+    "working": "Arbeitet",
+    "waiting": "Braucht dich",
+    "failed": "Fehlgeschlagen",
+    "done": "Fertig",
+    "idle": "Untätig"
+  },
+  "crewWorking": "{{working}} von {{total}} arbeiten",
+  "noTasks": "Noch keine Aufgaben",
+  "emptyLift": "Leere Hebebühne",
+  "emptyLiftHint": "Starte ein Team, um hier ein Projekt anzuzeigen",
+  "moreAgents": "+{{count}} weitere",
+  "emptyTable": "Noch keine Agenten",
+  "activityEmpty": "Noch keine Aktivität",
+  "you": "Du",
+  "openProject": "{{name}} öffnen",
+  "time": {
+    "now": "jetzt",
+    "minutes": "vor {{count}} Min.",
+    "hours": "vor {{count}} Std.",
+    "days": "vor {{count}} T."
+  }
+}

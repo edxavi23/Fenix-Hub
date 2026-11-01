@@ -1,0 +1,34 @@
+{
+  "title": "Taller",
+  "sceneLabel": "Taller: tus proyectos en los elevadores y tus agentes en la mesa",
+  "tabs": {
+    "workshop": "Taller",
+    "projects": "Proyectos",
+    "agents": "Agentes",
+    "activity": "Actividad"
+  },
+  "classicStart": "Pantalla de inicio clásica",
+  "liveCount": "{{working}} trabajando · {{idle}} inactivos",
+  "status": {
+    "working": "Trabajando",
+    "waiting": "Te necesita",
+    "failed": "Falló",
+    "done": "Hecho",
+    "idle": "Inactivo"
+  },
+  "crewWorking": "{{working}} de {{total}} trabajando",
+  "noTasks": "Aún no hay tareas",
+  "emptyLift": "Elevador vacío",
+  "emptyLiftHint": "Crea un equipo para poner un proyecto aquí",
+  "moreAgents": "+{{count}} más",
+  "emptyTable": "Aún no hay agentes",
+  "activityEmpty": "Aún no hay actividad",
+  "you": "Tú",
+  "openProject": "Abrir {{name}}",
+  "time": {
+    "now": "ahora",
+    "minutes": "hace {{count}} min",
+    "hours": "hace {{count}} h",
+    "days": "hace {{count}} d"
+  }
+}

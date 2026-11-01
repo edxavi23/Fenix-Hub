@@ -3056,7 +3056,33 @@ export type I18nKey =
   | 'update.restoreUpdateNotification'
   | 'update.showInFolder'
   | 'update.upToDateTitle'
-  | 'update.viewRelease';
+  | 'update.viewRelease'
+  | 'workshop.activityEmpty'
+  | 'workshop.classicStart'
+  | 'workshop.crewWorking'
+  | 'workshop.emptyLift'
+  | 'workshop.emptyLiftHint'
+  | 'workshop.emptyTable'
+  | 'workshop.liveCount'
+  | 'workshop.moreAgents'
+  | 'workshop.noTasks'
+  | 'workshop.openProject'
+  | 'workshop.sceneLabel'
+  | 'workshop.status.done'
+  | 'workshop.status.failed'
+  | 'workshop.status.idle'
+  | 'workshop.status.waiting'
+  | 'workshop.status.working'
+  | 'workshop.tabs.activity'
+  | 'workshop.tabs.agents'
+  | 'workshop.tabs.projects'
+  | 'workshop.tabs.workshop'
+  | 'workshop.time.days'
+  | 'workshop.time.hours'
+  | 'workshop.time.minutes'
+  | 'workshop.time.now'
+  | 'workshop.title'
+  | 'workshop.you';
 
 export type I18nModule =
   | 'common'
@@ -3078,4 +3104,5 @@ export type I18nModule =
   | 'agent'
   | 'team'
   | 'pet'
-  | 'memory';
+  | 'memory'
+  | 'workshop';

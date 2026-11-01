@@ -1,0 +1,34 @@
+{
+  "title": "کارگاه",
+  "sceneLabel": "کارگاه: پروژه‌ها روی بالابرها و عامل‌ها پشت میز",
+  "tabs": {
+    "workshop": "کارگاه",
+    "projects": "پروژه‌ها",
+    "agents": "عامل‌ها",
+    "activity": "فعالیت"
+  },
+  "classicStart": "صفحه شروع کلاسیک",
+  "liveCount": "{{working}} در حال کار · {{idle}} بیکار",
+  "status": {
+    "working": "در حال کار",
+    "waiting": "منتظر شما",
+    "failed": "ناموفق",
+    "done": "انجام شد",
+    "idle": "بیکار"
+  },
+  "crewWorking": "{{working}} از {{total}} در حال کار",
+  "noTasks": "هنوز کاری نیست",
+  "emptyLift": "بالابر خالی",
+  "emptyLiftHint": "برای قرار دادن پروژه در اینجا یک تیم بسازید",
+  "moreAgents": "+{{count}} دیگر",
+  "emptyTable": "هنوز عاملی نیست",
+  "activityEmpty": "هنوز فعالیتی نیست",
+  "you": "شما",
+  "openProject": "باز کردن {{name}}",
+  "time": {
+    "now": "همین حالا",
+    "minutes": "{{count}} دقیقه پیش",
+    "hours": "{{count}} ساعت پیش",
+    "days": "{{count}} روز پیش"
+  }
+}
