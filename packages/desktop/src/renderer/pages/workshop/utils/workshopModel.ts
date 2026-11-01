@@ -7,7 +7,7 @@
 /**
  * Pure mapping from team data to what the Workshop scene shows:
  * which project sits on which lift, each project's status and progress,
- * and which agents get a seat at the table in which pose.
+ * and which agents stand in front of the table in which pose.
  */
 
 import type { ITeamTaskItem, TeamAssistant, TTeam } from '@/common/types/team/teamTypes';
@@ -15,15 +15,7 @@ import type { ITeamTaskItem, TeamAssistant, TTeam } from '@/common/types/team/te
 export type CrewStatus = 'working' | 'waiting' | 'failed' | 'idle';
 export type ProjectStatus = 'working' | 'waiting' | 'failed' | 'done' | 'idle';
 export type LiftSlot = 'center' | 'left' | 'right' | 'midleft' | 'midright';
-export type RobotPose =
-  | 'point-up'
-  | 'laptop'
-  | 'inspect'
-  | 'lean-back'
-  | 'arms-crossed'
-  | 'coffee'
-  | 'hand-raised'
-  | 'head-in-hands';
+export type RobotPose = 'arms-crossed' | 'laptop' | 'hand-raised' | 'head-in-hands';
 
 export type WorkshopTask = { id: string; subject: string; state: 'done' | 'now' | 'todo' };
 
@@ -123,14 +115,15 @@ export function pickCrew(projects: WorkshopProject[], max = MAX_SEATS): { seated
   return { seated: ranked.slice(0, max), hiddenCount: Math.max(0, ranked.length - max) };
 }
 
-const WORK_POSES: RobotPose[] = ['laptop', 'point-up', 'inspect'];
-const IDLE_POSES: RobotPose[] = ['arms-crossed', 'coffee', 'lean-back'];
+const POSE_BY_STATUS: Record<CrewStatus, RobotPose> = {
+  idle: 'arms-crossed',
+  working: 'laptop',
+  waiting: 'hand-raised',
+  failed: 'head-in-hands',
+};
 
-export function poseFor(status: CrewStatus, seatIndex: number): RobotPose {
-  if (status === 'waiting') return 'hand-raised';
-  if (status === 'failed') return 'head-in-hands';
-  const poses = status === 'working' ? WORK_POSES : IDLE_POSES;
-  return poses[seatIndex % poses.length];
+export function poseFor(status: CrewStatus): RobotPose {
+  return POSE_BY_STATUS[status];
 }
 
 export function countByStatus(crew: CrewMember[]): Record<CrewStatus, number> {

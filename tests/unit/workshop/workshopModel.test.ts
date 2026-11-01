@@ -178,13 +178,11 @@ describe('pickCrew', () => {
 });
 
 describe('poseFor', () => {
-  it('should always raise a hand for needs-you and hold the head for failed', () => {
-    expect(poseFor('waiting', 4)).toBe('hand-raised');
-    expect(poseFor('failed', 1)).toBe('head-in-hands');
-  });
-
-  it('should vary working poses by seat so neighbours look different', () => {
-    expect(new Set([0, 1, 2].map((i) => poseFor('working', i))).size).toBe(3);
+  it('should show one clear pose for each of the four statuses', () => {
+    expect(poseFor('idle')).toBe('arms-crossed');
+    expect(poseFor('working')).toBe('laptop');
+    expect(poseFor('waiting')).toBe('hand-raised');
+    expect(poseFor('failed')).toBe('head-in-hands');
   });
 });
 

@@ -6,15 +6,17 @@
 
 import { describe, expect, it } from 'vitest';
 import {
+  GARAGE,
   homography,
   PANEL,
-  polygonCss,
+  pctX,
+  pctY,
   projectPoint,
   robotBox,
   SCREENS,
   screenTransform,
-  SEAT,
-  seatX,
+  STAND,
+  standX,
   type Quad,
 } from '@renderer/pages/workshop/utils/workshopGeometry';
 
@@ -63,32 +65,38 @@ describe('screenTransform', () => {
   });
 });
 
-describe('seating', () => {
-  it('should centre a single robot on the table', () => {
-    expect(seatX(0, 1)).toBe((SEAT.firstX + SEAT.lastX) / 2);
+describe('standing', () => {
+  it('should centre a single robot between the first and last spot', () => {
+    expect(standX(0, 1)).toBe((STAND.firstX + STAND.lastX) / 2);
   });
 
-  it('should spread robots from the first seat to the last', () => {
-    expect([seatX(0, 6), seatX(5, 6)]).toEqual([SEAT.firstX, SEAT.lastX]);
+  it('should spread robots from the first spot to the last', () => {
+    expect([standX(0, 6), standX(5, 6)]).toEqual([STAND.firstX, STAND.lastX]);
   });
 
-  it('should keep every pose seated on the same line behind the table top', () => {
-    const bottoms = (['laptop', 'head-in-hands', 'hand-raised'] as const).map((pose) => {
-      const box = robotBox(pose, 0, 3);
+  it('should put the feet of every pose on the same floor line', () => {
+    const feet = (['arms-crossed', 'laptop', 'head-in-hands', 'hand-raised'] as const).map((pose) => {
+      const box = robotBox(pose, 0, 4);
       return box.top + box.height;
     });
 
-    expect(new Set(bottoms.map((b) => b.toFixed(6))).size).toBe(1);
+    expect(feet.every((y) => Math.abs(y - STAND.feetY) < 1e-6)).toBe(true);
+  });
+
+  it('should draw a raised hand taller than the idle body at the same scale', () => {
+    expect(robotBox('hand-raised', 0, 1).height).toBeGreaterThan(robotBox('arms-crossed', 0, 1).height);
+    expect(robotBox('arms-crossed', 0, 1).height).toBe(STAND.bodyHeight);
+  });
+
+  it('should keep the last robot clear of the activity feed on the right', () => {
+    const box = robotBox('laptop', 5, 6);
+
+    expect(box.x + box.width / 2).toBeLessThan(GARAGE.width - 380 - 16);
   });
 });
 
-describe('polygonCss', () => {
+describe('percent helpers', () => {
   it('should turn picture coordinates into percentages', () => {
-    expect(
-      polygonCss([
-        [0, 0],
-        [1668, 943],
-      ])
-    ).toBe('polygon(0% 0%, 100% 100%)');
+    expect([pctX(1668), pctY(943)]).toEqual([100, 100]);
   });
 });

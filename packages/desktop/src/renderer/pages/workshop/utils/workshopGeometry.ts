@@ -54,79 +54,47 @@ export const SCREENS: Record<LiftSlot, Quad> = {
 export const COMPACT_SLOTS = new Set<LiftSlot>(['midleft', 'midright']);
 export const PANEL = { width: 600, height: 400 };
 
-/** Steel table pieces, redrawn above the robots so it hides where each sprite is cut. */
-export const TABLE_PIECES: Point[][] = [
-  [
-    [470, 577],
-    [1182, 577],
-    [1208, 624],
-    [1208, 642],
-    [445, 642],
-    [445, 624],
-  ],
-  [
-    [446, 640],
-    [481, 640],
-    [481, 836],
-    [446, 836],
-  ],
-  [
-    [1171, 640],
-    [1207, 640],
-    [1207, 836],
-    [1171, 836],
-  ],
-  [
-    [478, 712],
-    [1172, 712],
-    [1178, 780],
-    [472, 780],
-  ],
-  [
-    [498, 640],
-    [522, 640],
-    [522, 782],
-    [498, 782],
-  ],
-  [
-    [1128, 640],
-    [1152, 640],
-    [1152, 782],
-    [1128, 782],
-  ],
-];
-
-/** Seated robots: the bottom of each sprite (its seat) sits hidden behind the table top. */
-export const SEAT = { y: 606, robotHeight: 150, firstX: 515, lastX: 1150, tagRows: [416, 448] as const };
-
-/** Sprite heights in px, so every pose is drawn at the same body scale. */
-export const ROBOT_SPRITE_HEIGHT: Record<RobotPose, number> = {
-  'point-up': 223,
-  laptop: 203,
-  inspect: 205,
-  'lean-back': 205,
-  'arms-crossed': 210,
-  coffee: 194,
-  'hand-raised': 217,
-  'head-in-hands': 157,
+/**
+ * Robots stand on the floor in front of the table, full body. Every sprite ends at the same
+ * baseline (the feet), so one body scale keeps all poses the same size.
+ */
+export const STAND = {
+  feetY: 850,
+  bodyHeight: 400,
+  firstX: 530,
+  lastX: 1170,
+  /** Tag rows above the heads; a tag also never sits lower than the top of its own robot. */
+  tagRows: [438, 410] as const,
 };
 
-export function seatX(index: number, count: number): number {
-  if (count <= 1) return (SEAT.firstX + SEAT.lastX) / 2;
-  return SEAT.firstX + (index * (SEAT.lastX - SEAT.firstX)) / (count - 1);
+/** Sprite size in px (width x height, feet at the bottom edge) for each pose. */
+export const ROBOT_SPRITE_SIZE: Record<RobotPose, { width: number; height: number }> = {
+  'arms-crossed': { width: 285, height: 785 },
+  laptop: { width: 344, height: 778 },
+  'hand-raised': { width: 313, height: 870 },
+  'head-in-hands': { width: 349, height: 780 },
+};
+
+export function standX(index: number, count: number): number {
+  if (count <= 1) return (STAND.firstX + STAND.lastX) / 2;
+  return STAND.firstX + (index * (STAND.lastX - STAND.firstX)) / (count - 1);
 }
 
-export function robotBox(pose: RobotPose, index: number, count: number): { x: number; top: number; height: number } {
-  const height = SEAT.robotHeight * (ROBOT_SPRITE_HEIGHT[pose] / ROBOT_SPRITE_HEIGHT['arms-crossed']);
-  return { x: seatX(index, count), top: SEAT.y - height, height };
+/** Box of one standing robot in picture px: x is the centre, top is the highest point (a raised hand counts). */
+export function robotBox(
+  pose: RobotPose,
+  index: number,
+  count: number
+): { x: number; top: number; height: number; width: number } {
+  const size = ROBOT_SPRITE_SIZE[pose];
+  const scale = STAND.bodyHeight / ROBOT_SPRITE_SIZE['arms-crossed'].height;
+  const height = size.height * scale;
+  return { x: standX(index, count), top: STAND.feetY - height, height, width: size.width * scale };
 }
 
 /** Percent of the picture's width or height, for absolute positioning that scales with the window. */
 export const pctX = (x: number): number => (x / GARAGE.width) * 100;
 export const pctY = (y: number): number => (y / GARAGE.height) * 100;
-
-export const polygonCss = (points: Point[]): string =>
-  `polygon(${points.map(([x, y]) => `${pctX(x)}% ${pctY(y)}%`).join(', ')})`;
 
 function solveLinear(matrix: number[][], values: number[]): number[] {
   const a = matrix.map((row) => [...row]);
