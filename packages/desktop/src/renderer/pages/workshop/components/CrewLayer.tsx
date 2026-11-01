@@ -12,7 +12,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '../Workshop.module.css';
 import { STATUS_COLOR } from '../utils/statusColor';
-import { pctX, pctY, robotBox, STAND } from '../utils/workshopGeometry';
+import { layoutRobots, pctX, pctY, STAND } from '../utils/workshopGeometry';
 import { poseFor, type CrewMember, type RobotPose } from '../utils/workshopModel';
 
 const ROBOT_IMAGES: Record<RobotPose, string> = {
@@ -30,10 +30,10 @@ type CrewLayerProps = {
 
 const CrewLayer: React.FC<CrewLayerProps> = ({ seated, hiddenCount, onOpen }) => {
   const { t } = useTranslation();
-  const placed = seated.map((member, index) => {
-    const pose = poseFor(member.status);
-    return { member, pose, box: robotBox(pose, index, seated.length) };
-  });
+  const poses = seated.map((member) => poseFor(member.status));
+  const boxes = layoutRobots(poses);
+  const placed = seated.map((member, index) => ({ member, pose: poses[index], box: boxes[index] }));
+  const rightEdge = boxes.length > 0 ? Math.max(...boxes.map((box) => box.x + box.width / 2)) : STAND.centerX;
 
   return (
     <>
@@ -72,7 +72,7 @@ const CrewLayer: React.FC<CrewLayerProps> = ({ seated, hiddenCount, onOpen }) =>
         {hiddenCount > 0 ? (
           <span
             className={styles.more}
-            style={{ left: `${pctX(STAND.lastX + 150)}%`, top: `${pctY(STAND.feetY - 200)}%` }}
+            style={{ left: `${pctX(rightEdge + 60)}%`, top: `${pctY(STAND.feetY - 200)}%` }}
           >
             {t('workshop.moreAgents', { count: hiddenCount })}
           </span>

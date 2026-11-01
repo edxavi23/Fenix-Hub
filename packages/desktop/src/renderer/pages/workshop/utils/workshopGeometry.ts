@@ -56,40 +56,44 @@ export const PANEL = { width: 600, height: 400 };
 
 /**
  * Robots stand on the floor in front of the table, full body. Every sprite ends at the same
- * baseline (the feet), so one body scale keeps all poses the same size.
+ * baseline (the feet), so one body scale keeps all poses the same size. Robots are laid out
+ * side by side from their real widths, so two of them never overlap.
  */
 export const STAND = {
   feetY: 850,
-  bodyHeight: 400,
-  firstX: 530,
-  lastX: 1170,
+  bodyHeight: 360,
+  /** Empty space between two neighbours, in picture px. */
+  gap: 10,
+  /** The row of robots is centred here, left of the activity feed. */
+  centerX: 790,
   /** Tag rows above the heads; a tag also never sits lower than the top of its own robot. */
-  tagRows: [438, 410] as const,
+  tagRows: [484, 456] as const,
 };
 
-/** Sprite size in px (width x height, feet at the bottom edge) for each pose. */
+/** Sprite size in px (cropped tight, feet at the bottom edge) for each pose. */
 export const ROBOT_SPRITE_SIZE: Record<RobotPose, { width: number; height: number }> = {
-  'arms-crossed': { width: 285, height: 785 },
-  laptop: { width: 344, height: 778 },
-  'hand-raised': { width: 313, height: 870 },
-  'head-in-hands': { width: 349, height: 780 },
+  'arms-crossed': { width: 266, height: 781 },
+  laptop: { width: 304, height: 780 },
+  'hand-raised': { width: 316, height: 805 },
+  'head-in-hands': { width: 318, height: 775 },
 };
 
-export function standX(index: number, count: number): number {
-  if (count <= 1) return (STAND.firstX + STAND.lastX) / 2;
-  return STAND.firstX + (index * (STAND.lastX - STAND.firstX)) / (count - 1);
-}
+export type RobotBox = { x: number; top: number; height: number; width: number };
 
-/** Box of one standing robot in picture px: x is the centre, top is the highest point (a raised hand counts). */
-export function robotBox(
-  pose: RobotPose,
-  index: number,
-  count: number
-): { x: number; top: number; height: number; width: number } {
-  const size = ROBOT_SPRITE_SIZE[pose];
+/** Boxes of standing robots in picture px: x is the centre, top is the highest point (a raised hand counts). */
+export function layoutRobots(poses: RobotPose[]): RobotBox[] {
   const scale = STAND.bodyHeight / ROBOT_SPRITE_SIZE['arms-crossed'].height;
-  const height = size.height * scale;
-  return { x: standX(index, count), top: STAND.feetY - height, height, width: size.width * scale };
+  const sizes = poses.map((pose) => ({
+    width: ROBOT_SPRITE_SIZE[pose].width * scale,
+    height: ROBOT_SPRITE_SIZE[pose].height * scale,
+  }));
+  const total = sizes.reduce((sum, size) => sum + size.width, 0) + STAND.gap * Math.max(0, sizes.length - 1);
+  let left = STAND.centerX - total / 2;
+  return sizes.map((size) => {
+    const box = { x: left + size.width / 2, top: STAND.feetY - size.height, height: size.height, width: size.width };
+    left += size.width + STAND.gap;
+    return box;
+  });
 }
 
 /** Percent of the picture's width or height, for absolute positioning that scales with the window. */

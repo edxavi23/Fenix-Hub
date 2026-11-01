@@ -12,11 +12,10 @@ import {
   pctX,
   pctY,
   projectPoint,
-  robotBox,
+  layoutRobots,
   SCREENS,
   screenTransform,
   STAND,
-  standX,
   type Quad,
 } from '@renderer/pages/workshop/utils/workshopGeometry';
 
@@ -66,32 +65,44 @@ describe('screenTransform', () => {
 });
 
 describe('standing', () => {
-  it('should centre a single robot between the first and last spot', () => {
-    expect(standX(0, 1)).toBe((STAND.firstX + STAND.lastX) / 2);
+  const ALL = ['arms-crossed', 'laptop', 'hand-raised', 'head-in-hands'] as const;
+  const sixLaptops = Array.from({ length: 6 }, () => 'head-in-hands' as const);
+
+  it('should centre a single robot on the row centre', () => {
+    expect(layoutRobots(['laptop'])[0].x).toBeCloseTo(STAND.centerX, 6);
   });
 
-  it('should spread robots from the first spot to the last', () => {
-    expect([standX(0, 6), standX(5, 6)]).toEqual([STAND.firstX, STAND.lastX]);
+  it('should return no boxes for no robots', () => {
+    expect(layoutRobots([])).toEqual([]);
+  });
+
+  it.each([[[...ALL]], [[...ALL, ...ALL]], [sixLaptops]])('should never let two robots touch: %j', (poses) => {
+    const boxes = layoutRobots(poses);
+
+    boxes.slice(1).forEach((box, i) => {
+      const previous = boxes[i];
+      expect(box.x - box.width / 2 - (previous.x + previous.width / 2)).toBeGreaterThanOrEqual(STAND.gap - 1e-6);
+    });
   });
 
   it('should put the feet of every pose on the same floor line', () => {
-    const feet = (['arms-crossed', 'laptop', 'head-in-hands', 'hand-raised'] as const).map((pose) => {
-      const box = robotBox(pose, 0, 4);
-      return box.top + box.height;
-    });
+    const feet = layoutRobots([...ALL]).map((box) => box.top + box.height);
 
     expect(feet.every((y) => Math.abs(y - STAND.feetY) < 1e-6)).toBe(true);
   });
 
   it('should draw a raised hand taller than the idle body at the same scale', () => {
-    expect(robotBox('hand-raised', 0, 1).height).toBeGreaterThan(robotBox('arms-crossed', 0, 1).height);
-    expect(robotBox('arms-crossed', 0, 1).height).toBe(STAND.bodyHeight);
+    const [idle, raised] = layoutRobots(['arms-crossed', 'hand-raised']);
+
+    expect(raised.height).toBeGreaterThan(idle.height);
+    expect(idle.height).toBeCloseTo(STAND.bodyHeight, 6);
   });
 
-  it('should keep the last robot clear of the activity feed on the right', () => {
-    const box = robotBox('laptop', 5, 6);
+  it('should keep the widest row of six clear of the activity feed on the right', () => {
+    const boxes = layoutRobots(sixLaptops);
+    const last = boxes[boxes.length - 1];
 
-    expect(box.x + box.width / 2).toBeLessThan(GARAGE.width - 380 - 16);
+    expect(last.x + last.width / 2).toBeLessThan(GARAGE.width - 380 - 16);
   });
 });
 
